@@ -1,0 +1,43 @@
+import datetime
+import hashlib
+import json
+from flask import Flask, jsonify
+
+class Blockchain:
+
+    def __init__(self):
+        #list of blocks
+        self.chain = []
+        #Start with Genisis Block with initial proof as 1 and previous Hash as 0 
+        self.create_block(proof = 1, previous_hash = '0')
+
+    def create_block(self, proof, previous_hash):
+        block = {'index': len(self.chain) + 1,
+                 'timestamp': str(datetime.datetime.now()),
+                 'proof': proof,
+                 'previous_hash': previous_hash}
+        self.chain.append(block)
+        return block
+
+    def get_previous_block(self):
+        return self.chain[-1]
+    
+    def is_chain_valid(self, chain):
+        previous_block = chain[0]
+        block_index = 1
+        while block_index < len(chain):
+            block = chain[block_index]
+            if block['previous_hash'] != self.hash(previous_block):
+                return False
+            previous_proof = previous_block['proof']
+            proof = block['proof']
+            hash_operation = hashlib.sha256(str(proof**2 - previous_proof**2).encode()).hexdigest()
+            if hash_operation[:4] != '0000':
+                return False
+            previous_block = block
+            block_index += 1
+        return True
+    
+    def hash(self, block):
+        encoded_block = json.dumps(block, sort_keys = True).encode()
+        return hashlib.sha256(encoded_block).hexdigest()
