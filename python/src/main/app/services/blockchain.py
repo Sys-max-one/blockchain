@@ -5,11 +5,12 @@ import json
 class Blockchain:
 
     def __init__(self):
-        #list of blocks
+        #array of blocks
         self.chain = []
         #Start with Genisis Block with initial proof as 1 and previous Hash as 0 
         self.create_block(proof = 1, previous_hash = '0')
 
+    #it is called after block is mined
     def create_block(self, proof, previous_hash):
         block = {'index': len(self.chain) + 1,
                  'timestamp': str(datetime.datetime.now()),
@@ -20,7 +21,11 @@ class Blockchain:
 
     def get_previous_block(self):
         return self.chain[-1]
-    
+
+    #it will start from genesis block (means from 1st block).
+    #it will check if:
+    # 1. for the current block's Previous hash key is same as Previous block hash
+    # 2. and hash is starting with 4 leading zeros
     def is_chain_valid(self, chain):
         previous_block = chain[0]
         block_index = 1
@@ -30,8 +35,8 @@ class Blockchain:
                 return False
             previous_proof = previous_block['proof']
             proof = block['proof']
-            hash_operation = hashlib.sha256(str(proof**2 - previous_proof**2).encode()).hexdigest()
-            if hash_operation[:4] != '0000':
+            hash_operation = proof.hash_operation(proof, previous_proof)
+            if proof.check_proof(hash_operation) is False:
                 return False
             previous_block = block
             block_index += 1
