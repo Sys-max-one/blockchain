@@ -1,6 +1,6 @@
 import hashlib
 
-class Proof:
+class ProofOfWork:
     
     def proof_of_work_sha256(self, previous_proof):
         #it is nonce, we need to find this value to show proof of work to mine new block

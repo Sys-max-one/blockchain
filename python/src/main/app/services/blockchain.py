@@ -1,6 +1,9 @@
 import datetime
 import hashlib
 import json
+from python.src.main.app.services.proof_of_work import ProofOfWork
+
+proof_of_work = ProofOfWork()
 
 class Blockchain:
 
@@ -35,8 +38,8 @@ class Blockchain:
                 return False
             previous_proof = previous_block['proof']
             proof = block['proof']
-            hash_operation = proof.hash_operation(proof, previous_proof)
-            if proof.check_proof(hash_operation) is False:
+            hash_operation = proof_of_work.hash_operation(proof, previous_proof)
+            if proof_of_work.check_proof(hash_operation) is False:
                 return False
             previous_block = block
             block_index += 1
