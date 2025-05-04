@@ -10,7 +10,7 @@ class Blockchain:
         #Start with Genisis Block with initial proof as 1 and previous Hash as 0 
         self.create_block(proof = 1, previous_hash = '0')
 
-    #it is called after block is mined
+    #we should call it after block is mined. It will create and append block to blockchain
     def create_block(self, proof, previous_hash):
         block = {'index': len(self.chain) + 1,
                  'timestamp': str(datetime.datetime.now()),
