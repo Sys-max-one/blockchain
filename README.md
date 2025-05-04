@@ -25,3 +25,7 @@ It is designed for educational purposes and offers insight into how blockchain t
 * Learn how blockchain data structures and consensus algorithms work.
 * Experiment with basic cryptographic hashing and proof-of-work.
 * Extend or integrate with additional features such as peer-to-peer networking or smart contract simulations.
+
+#### 🏃 Run app
+* Install Flask 
+* Run python/src/main/app/app.py
